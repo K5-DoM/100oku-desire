@@ -45,6 +45,21 @@ VITE_API_BASE_URL=http://localhost:3001
 同一 LAN 内の他端末からアクセスする場合は、PC の IP を指定する（例: `VITE_API_BASE_URL=http://192.168.1.10:3001`）。  
 未設定の場合はプレイ送信・分析取得を行わず、分析画面は従来どおり固定データを表示する。詳細は [docs/BACKEND_DESIGN.md](docs/BACKEND_DESIGN.md) を参照。
 
+### 簡易バックエンドを Docker で起動する（ノートPCを簡易サーバにする）
+
+事前に Docker / Docker Compose がインストールされていることを前提とする。
+
+```bash
+# プロジェクトルートで実行
+docker compose up -d
+```
+
+- バックエンド API はデフォルトで `http://localhost:3001` で待ち受ける。
+- プレイデータは `server/data/plays.json` に永続化される（ホストとコンテナで共有）。
+
+フロントエンドから API を利用するには、これまで通り `.env` に `VITE_API_BASE_URL` を設定する。  
+同一 LAN 内のスマホなどからアクセスする場合は、ノートPC の LAN 内 IP アドレスを指定する（例: `VITE_API_BASE_URL=http://192.168.1.10:3001`）。
+
 # about
 Currently, two official plugins are available:
 
