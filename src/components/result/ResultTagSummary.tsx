@@ -10,7 +10,7 @@ export function ResultTagSummary({ selectedCardIds, className = '' }: ResultTagS
 
   return (
     <section className={`rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-4 shadow-lg ${className}`}>
-      <h3 className="text-sm font-semibold text-gray-700 mb-2">タグサマリ</h3>
+      <h3 className="text-sm font-semibold text-gray-700 mb-2">サブ分類</h3>
 
       {!summary.hasData ? (
         <p className="text-sm text-gray-500">データなし</p>

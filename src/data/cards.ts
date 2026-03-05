@@ -94,6 +94,8 @@ export const CARDS: Card[] = [
     description: '廃線危機の路線を買い支え、観光列車・通学を守る',
     cost: 3_500_000_000,
     category: 'community',
+    publicness: 'public',
+    impactDomain: 'infra',
     imageUrl: `${import.meta.env.BASE_URL}images/image_09.webp`,
   },
   {
@@ -102,6 +104,8 @@ export const CARDS: Card[] = [
     description: '保育・学童・フードコート・図書を一体化して人を呼ぶ',
     cost: 1_200_000_000,
     category: 'community',
+    publicness: 'public',
+    impactDomain: 'education',
     imageUrl: `${import.meta.env.BASE_URL}images/image_10.webp`,
   },
   {
@@ -110,6 +114,8 @@ export const CARDS: Card[] = [
     description: '住まい不足と空き家問題を同時に解く“住む街改革”',
     cost: 1_800_000_000,
     category: 'community',
+    publicness: 'public',
+    impactDomain: 'infra',
     imageUrl: `${import.meta.env.BASE_URL}images/image_11.webp`,
   },
   {
@@ -118,6 +124,8 @@ export const CARDS: Card[] = [
     description: '地元名物を全国・海外へ。雇用と税収を増やす',
     cost: 900_000_000,
     category: 'community',
+    publicness: 'public',
+    impactDomain: 'economy',
     imageUrl: `${import.meta.env.BASE_URL}images/image_12.webp`,
   },
   {
@@ -126,6 +134,8 @@ export const CARDS: Card[] = [
     description: 'ため池・堤防・避難所・備蓄をまとめて強化する',
     cost: 2_500_000_000,
     category: 'community',
+    publicness: 'public',
+    impactDomain: 'disaster',
     imageUrl: `${import.meta.env.BASE_URL}images/image_13.webp`,
   },
   {
@@ -134,6 +144,8 @@ export const CARDS: Card[] = [
     description: '医師不足エリアに移動診療＋遠隔診療を整備',
     cost: 800_000_000,
     category: 'community',
+    publicness: 'public',
+    impactDomain: 'health',
     imageUrl: `${import.meta.env.BASE_URL}images/image_14.webp`,
   },
   {
@@ -142,6 +154,8 @@ export const CARDS: Card[] = [
     description: '毎年開催で観光資産に。空き店舗も展示会場にする',
     cost: 600_000_000,
     category: 'community',
+    publicness: 'public',
+    impactDomain: 'culture',
     imageUrl: `${import.meta.env.BASE_URL}images/image_15.webp`,
   },
   {
@@ -150,6 +164,8 @@ export const CARDS: Card[] = [
     description: '料理の最高峰を巡る。予約も移動も全部お任せ',
     cost: 200_000_000,
     category: 'experience',
+    publicness: 'private',
+    impactDomain: 'tourism',
     imageUrl: `${import.meta.env.BASE_URL}images/image_16.webp`,
   },
   {
@@ -158,6 +174,8 @@ export const CARDS: Card[] = [
     description: '船をほぼ“自分の家”にして、数か月かけて旅する',
     cost: 1_500_000_000,
     category: 'experience',
+    publicness: 'private',
+    impactDomain: 'tourism',
     imageUrl: `${import.meta.env.BASE_URL}images/image_17.webp`,
   },
   {
@@ -166,6 +184,8 @@ export const CARDS: Card[] = [
     description: '普通の旅行では行けない場所へ、本気の遠征',
     cost: 700_000_000,
     category: 'experience',
+    publicness: 'private',
+    impactDomain: 'tech',
     imageUrl: `${import.meta.env.BASE_URL}images/image_18.webp`,
   },
   {
@@ -174,6 +194,8 @@ export const CARDS: Card[] = [
     description: '監督・俳優も一流で。自分の物語を映像にする',
     cost: 2_000_000_000,
     category: 'experience',
+    publicness: 'private',
+    impactDomain: 'culture',
     imageUrl: `${import.meta.env.BASE_URL}images/image_19.webp`,
   },
   {
@@ -182,6 +204,8 @@ export const CARDS: Card[] = [
     description: '好きな曲だけのセットリスト。会場も演出も超豪華',
     cost: 300_000_000,
     category: 'experience',
+    publicness: 'private',
+    impactDomain: 'culture',
     imageUrl: `${import.meta.env.BASE_URL}images/image_20.webp`,
   },
   {
@@ -190,6 +214,8 @@ export const CARDS: Card[] = [
     description: '全試合特等席、専属コンシェルジュ付き',
     cost: 400_000_000,
     category: 'experience',
+    publicness: 'private',
+    impactDomain: 'sports',
     imageUrl: `${import.meta.env.BASE_URL}images/image_21.webp`,
   },
   // {
@@ -206,6 +232,8 @@ export const CARDS: Card[] = [
     description: '景気に左右されにくい土台に投資して安定収益を狙う',
     cost: 2_500_000_000,
     category: 'investment',
+    publicness: 'public',
+    impactDomain: 'infra',
     imageUrl: `${import.meta.env.BASE_URL}images/image_23.webp`,
   },
   {
@@ -214,6 +242,8 @@ export const CARDS: Card[] = [
     description: '食の安定は国力。生産〜物流まで押さえる',
     cost: 1_800_000_000,
     category: 'investment',
+    publicness: 'public',
+    impactDomain: 'economy',
     imageUrl: `${import.meta.env.BASE_URL}images/image_24.webp`,
   },
   {
@@ -222,6 +252,8 @@ export const CARDS: Card[] = [
     description: '当たれば巨大、外れればゼロ。夢の“治療”に賭ける',
     cost: 2_200_000_000,
     category: 'investment',
+    publicness: 'public',
+    impactDomain: 'health',
     imageUrl: `${import.meta.env.BASE_URL}images/image_25.webp`,
   },
   {
@@ -230,6 +262,8 @@ export const CARDS: Card[] = [
     description: '“裏方インフラ”に乗る。賃料収入で堅くいく',
     cost: 3_000_000_000,
     category: 'investment',
+    publicness: 'private',
+    impactDomain: 'economy',
     imageUrl: `${import.meta.env.BASE_URL}images/image_26.webp`,
   },
   {
@@ -238,6 +272,8 @@ export const CARDS: Card[] = [
     description: '後継者不足の会社を引き継ぎ、経営改善で伸ばす',
     cost: 4_500_000_000,
     category: 'investment',
+    publicness: 'private',
+    impactDomain: 'economy',
     imageUrl: `${import.meta.env.BASE_URL}images/image_27.webp`,
   },
   // {
@@ -254,6 +290,8 @@ export const CARDS: Card[] = [
     description: '直接不動産を持たずに、分散した賃料収入を狙う',
     cost: 2_500_000_000,
     category: 'asset',
+    publicness: 'private',
+    impactDomain: 'economy',
     imageUrl: `${import.meta.env.BASE_URL}images/image_29.webp`,
   },
   // {
@@ -270,6 +308,8 @@ export const CARDS: Card[] = [
     description: '元本を守りつつ運用して、毎年支援を出し続ける',
     cost: 2_000_000_000,
     category: 'asset',
+    publicness: 'public',
+    impactDomain: 'education',
     imageUrl: `${import.meta.env.BASE_URL}images/image_31.png`,
   },
 ]
