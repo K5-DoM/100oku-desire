@@ -54,7 +54,28 @@ function readCardsMaster() {
 }
 
 const app = express()
-app.use(cors({ origin: '*' }))
+
+// GitHub Pages（https://k5-dom.github.io など）やローカル開発からのアクセスを許可する CORS 設定
+const ALLOWED_ORIGINS = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:4173',
+  'http://127.0.0.1:4173',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'https://k5-dom.github.io',
+]
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      // curl や Postman など Origin ヘッダが付かない場合は許可
+      if (!origin) return callback(null, true)
+      if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true)
+      return callback(null, false)
+    },
+  }),
+)
 app.use(express.json())
 
 app.get('/api/health', (_req, res) => {
@@ -142,7 +163,7 @@ app.get('/api/analytics', (_req, res) => {
 })
 
 const server = app.listen(PORT, () => {
-  console.log(`100oku Desire API: http://localhost:${PORT}`)
+  console.log(`100oku Desire API: http://localhost:${PORT} or http://<IP address>:${PORT}`)
 })
 server.on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
