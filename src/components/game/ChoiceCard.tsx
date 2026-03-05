@@ -68,6 +68,14 @@ export function ChoiceCard({ card, onAccept, onReject, canAccept = true, classNa
       </motion.div>
 
       <CategoryBadge category={card.category} className="mb-2" />
+      {card.imageUrl && (
+        <img
+          src={card.imageUrl}
+          alt={card.title}
+          className="w-full h-44 object-cover rounded-xl mb-3"
+          loading="lazy"
+        />
+      )}
       <h2 className="text-lg font-semibold text-gray-900">{card.title}</h2>
       <p className="text-sm text-gray-600 mt-1">{card.description}</p>
       <p className="text-base font-semibold text-indigo-600 mt-2 tabular-nums">{formatYen(card.cost)}</p>

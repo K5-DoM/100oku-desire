@@ -17,6 +17,7 @@ export interface Card {
   description: string
   cost: number
   category: CardCategory
+  imageUrl?: string
   sponsorName?: string
   impactTag?: string
 }
