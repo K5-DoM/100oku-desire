@@ -15,12 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -37,13 +33,25 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
+      - name: Record deploy ref
+        run: |
+          echo "${{ github.sha }}" > dist/deploy-ref.txt
+          date -u +%Y-%m-%dT%H:%M:%SZ >> dist/deploy-ref.txt
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
       - name: Deploy
         id: deploy
