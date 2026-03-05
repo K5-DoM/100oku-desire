@@ -33,11 +33,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Record deploy ref
-        run: |
-          echo "${{ github.sha }}" > dist/deploy-ref.txt
-          date -u +%Y-%m-%dT%H:%M:%SZ >> dist/deploy-ref.txt
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
