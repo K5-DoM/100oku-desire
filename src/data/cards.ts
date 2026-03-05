@@ -13,6 +13,7 @@ export const CARDS: Card[] = [
     description: '地域の顔として街を盛り上げる',
     cost: 5_000_000_000,
     category: 'community',
+    imageUrl: `${import.meta.env.BASE_URL}images/image_01.png`,
   },
   {
     id: 'card-2',
@@ -20,6 +21,7 @@ export const CARDS: Card[] = [
     description: '民間宇宙船で地球を眺める',
     cost: 500_000_000,
     category: 'experience',
+    imageUrl: `${import.meta.env.BASE_URL}images/image_02.png`,
   },
   {
     id: 'card-3',
@@ -27,6 +29,7 @@ export const CARDS: Card[] = [
     description: '庭にプライベートジェット用滑走路付き',
     cost: 10_000_000_000,
     category: 'desire',
+    imageUrl: `${import.meta.env.BASE_URL}images/image_03.png`,
   },
   {
     id: 'card-4',
@@ -34,6 +37,7 @@ export const CARDS: Card[] = [
     description: '脱炭素のインフラを支える',
     cost: 3_000_000_000,
     category: 'investment',
+    imageUrl: `${import.meta.env.BASE_URL}images/image_04.png`,
   },
   {
     id: 'card-5',
@@ -41,6 +45,7 @@ export const CARDS: Card[] = [
     description: '無料開放で文化振興',
     cost: 2_000_000_000,
     category: 'community',
+    imageUrl: `${import.meta.env.BASE_URL}images/image_05.png`,
   },
   {
     id: 'card-6',
@@ -48,6 +53,7 @@ export const CARDS: Card[] = [
     description: '資産を守りながら増やす',
     cost: 8_000_000_000,
     category: 'asset',
+    imageUrl: `${import.meta.env.BASE_URL}images/image_06.png`,
   },
   {
     id: 'card-7',
@@ -55,6 +61,7 @@ export const CARDS: Card[] = [
     description: 'スタッフ付きプライベート島',
     cost: 1_000_000_000,
     category: 'experience',
+    imageUrl: `${import.meta.env.BASE_URL}images/image_07.png`,
   },
   {
     id: 'card-8',
@@ -62,5 +69,6 @@ export const CARDS: Card[] = [
     description: '若い挑戦者を100社支援',
     cost: 4_000_000_000,
     category: 'investment',
+    imageUrl: `${import.meta.env.BASE_URL}images/image_08.png`,
   },
 ]
