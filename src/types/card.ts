@@ -5,6 +5,19 @@
 
 /** カテゴリ: 投資 / 地域貢献 / 体験 / 資産形成（「欲望」は体験に統合） */
 export type CardCategory = 'investment' | 'community' | 'experience' | 'asset'
+export type CardPublicness = 'public' | 'private'
+export type ImpactDomain =
+  | 'education'
+  | 'environment'
+  | 'sports'
+  | 'culture'
+  | 'infra'
+  | 'disaster'
+  | 'tourism'
+  | 'tech'
+  | 'economy'
+  | 'health'
+  | 'other'
 
 export interface Card {
   id: string
@@ -12,6 +25,8 @@ export interface Card {
   description: string
   cost: number
   category: CardCategory
+  publicness: CardPublicness
+  impactDomain: ImpactDomain
   imageUrl?: string
   sponsorName?: string
   impactTag?: string

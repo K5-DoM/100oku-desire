@@ -10,6 +10,7 @@ import type { PlayPayload } from '../types/game'
 import { Button } from '../components/common/Button'
 import { ResultSummary } from '../components/result/ResultSummary'
 import { ResultBreakdown } from '../components/result/ResultBreakdown'
+import { ResultTagSummary } from '../components/result/ResultTagSummary'
 import { SharePanel } from '../components/result/SharePanel'
 import { RESULT_SCREEN } from '../constants/copy'
 import { getResultInfo } from '../utils/result'
@@ -39,7 +40,7 @@ function buildPayload(game: GameState): PlayPayload | null {
 }
 
 export function ResultScreen({ game }: ResultScreenProps) {
-  const { balance, categoryScores, result, restartGame, goToAnalytics } = game
+  const { balance, categoryScores, selectedCardIds, result, restartGame, goToAnalytics } = game
   const sentRef = useRef(false)
 
   useEffect(() => {
@@ -66,6 +67,7 @@ export function ResultScreen({ game }: ResultScreenProps) {
     <div className="flex flex-col space-y-6">
       <ResultSummary resultType={result} balance={balance} />
       <ResultBreakdown categoryScores={categoryScores} />
+      <ResultTagSummary selectedCardIds={selectedCardIds} />
       <SharePanel shareText={shareText} />
       <div className="flex gap-3 pt-4">
         <Button variant="secondary" onClick={goToAnalytics}>
