@@ -52,7 +52,7 @@ export function AnalyticsScreen({ game }: AnalyticsScreenProps) {
               <Pie
                 data={pieData}
                 cx="50%"
-                cy="45%"
+                cy="50%"
                 innerRadius={44}
                 outerRadius={64}
                 paddingAngle={2}
