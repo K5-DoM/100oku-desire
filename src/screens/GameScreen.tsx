@@ -34,7 +34,13 @@ export function GameScreen({ game }: GameScreenProps) {
       <BalanceHeader balance={balance} />
       <ProgressBar value={presentedCount} max={totalCards} className="my-2" />
       <div className="flex-1 flex flex-col justify-center">
-        <ChoiceCard card={card} />
+        <ChoiceCard
+          key={currentCardIndex}
+          card={card}
+          onAccept={() => chooseCurrentCard(true)}
+          onReject={() => chooseCurrentCard(false)}
+          canAccept={canAccept}
+        />
         <ChoiceActions
           onAccept={() => chooseCurrentCard(true)}
           onReject={() => chooseCurrentCard(false)}
