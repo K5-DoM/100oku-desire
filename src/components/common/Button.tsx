@@ -18,7 +18,7 @@ export function Button({
   disabled = false,
 }: ButtonProps) {
   const base =
-    'px-4 py-2 rounded-lg font-medium transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
+    'px-4 py-2 rounded-xl font-medium transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]'
   const variants =
     variant === 'primary'
       ? 'bg-indigo-600 text-white hover:bg-indigo-700'

@@ -1,3 +1,4 @@
+@import "tailwindcss";
 /* グローバル基底（Tailwind と併用。レイアウト・色は Tailwind で指定） */
 @import './styles/animations.css';
 
@@ -15,6 +16,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(160deg, #f0f4ff 0%, #e8eeff 40%, #dce4fa 100%);
 }
 
 #root {

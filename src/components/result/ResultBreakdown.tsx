@@ -22,9 +22,9 @@ interface ResultBreakdownProps {
 
 export function ResultBreakdown({ categoryScores, className = '' }: ResultBreakdownProps) {
   return (
-    <section className={className}>
-      <h3 className="text-sm font-medium text-gray-700 mb-2">選択傾向</h3>
-      <ul className="space-y-1">
+    <section className={`rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-4 shadow-lg ${className}`}>
+      <h3 className="text-sm font-semibold text-gray-700 mb-2">選択傾向</h3>
+      <ul className="space-y-2">
         {CATEGORY_ORDER.map((cat) => {
           const count = categoryScores[cat] ?? 0
           if (count === 0) return null

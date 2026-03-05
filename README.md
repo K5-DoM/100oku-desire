@@ -17,6 +17,15 @@ cd 100oku-desire
 npm install
 ```
 
+### 開発サーバー・ビルド
+```bash
+npm run dev    # 開発サーバー起動（例: http://localhost:5173）
+npm run build  # 本番ビルド
+npm run preview # ビルドのプレビュー
+```
+
+フロントエンドの詳細（推奨ディレクトリ構成・画面一覧・リッチ化のポイント）は [docs/FRONTEND_IMPLEMENTATION.md](docs/FRONTEND_IMPLEMENTATION.md) を参照。
+
 # about
 Currently, two official plugins are available:
 

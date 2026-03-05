@@ -3,10 +3,15 @@
  * app_definition: 集計グラフ風UI、固定データで企業向け活用を見せる
  */
 
+import { motion } from 'framer-motion'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
+import { BarChart3 } from 'lucide-react'
 import type { GameState } from '../hooks/useGameState'
 import { Button } from '../components/common/Button'
 import { analyticsMock } from '../data/analyticsMock'
 import { ANALYTICS_SCREEN } from '../constants/copy'
+
+const CHART_COLORS = ['#6366f1', '#8b5cf6', '#a855f7', '#c084fc', '#d8b4fe']
 
 interface AnalyticsScreenProps {
   game: GameState
@@ -15,50 +20,81 @@ interface AnalyticsScreenProps {
 export function AnalyticsScreen({ game }: AnalyticsScreenProps) {
   const { restartGame } = game
 
+  const pieData = analyticsMock.categoryRates.map((r) => ({
+    name: r.label,
+    value: Math.round(r.rate * 100),
+  }))
+
+  const barData = analyticsMock.popularCards.map((c) => ({
+    name: c.title.length > 12 ? c.title.slice(0, 12) + '…' : c.title,
+    fullName: c.title,
+    選択: c.pickCount,
+  }))
+
   return (
-    <div className="flex flex-col space-y-6">
-      <h1 className="text-xl font-bold text-gray-900">{ANALYTICS_SCREEN.title}</h1>
+    <motion.div
+      className="flex flex-col space-y-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex items-center gap-2">
+        <BarChart3 className="w-6 h-6 text-indigo-600" />
+        <h1 className="text-xl font-bold text-gray-900">{ANALYTICS_SCREEN.title}</h1>
+      </div>
       <p className="text-sm text-gray-600">{ANALYTICS_SCREEN.description}</p>
 
-      <section>
-        <h2 className="text-sm font-medium text-gray-700 mb-2">カテゴリ別人気率</h2>
-        <ul className="space-y-2">
-          {analyticsMock.categoryRates.map((r) => (
-            <li key={r.categoryId} className="flex items-center gap-2 text-sm">
-              <span className="w-24">{r.label}</span>
-              <div className="flex-1 h-4 bg-gray-200 rounded overflow-hidden">
-                <div
-                  className="h-full bg-indigo-500 rounded"
-                  style={{ width: `${r.rate * 100}%` }}
-                />
-              </div>
-              <span className="tabular-nums">{(r.rate * 100).toFixed(0)}%</span>
-            </li>
-          ))}
-        </ul>
+      <section className="rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-4 shadow-lg">
+        <h2 className="text-sm font-semibold text-gray-700 mb-3">カテゴリ別人気率</h2>
+        <div className="h-48">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={pieData}
+                cx="50%"
+                cy="50%"
+                innerRadius={48}
+                outerRadius={70}
+                paddingAngle={2}
+                dataKey="value"
+                nameKey="name"
+                label={({ name, value }) => `${name} ${value}%`}
+              >
+                {pieData.map((_, i) => (
+                  <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip formatter={(v: number) => `${v}%`} />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
       </section>
 
-      <section>
-        <h2 className="text-sm font-medium text-gray-700 mb-2">地域貢献系の選択率</h2>
-        <p className="text-lg font-medium">
+      <section className="rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-4 shadow-lg">
+        <h2 className="text-sm font-semibold text-gray-700 mb-2">地域貢献系の選択率</h2>
+        <p className="text-2xl font-bold text-indigo-600 tabular-nums">
           {(analyticsMock.communityPickRate * 100).toFixed(0)}%
         </p>
       </section>
 
-      <section>
-        <h2 className="text-sm font-medium text-gray-700 mb-2">人気カードランキング</h2>
-        <ol className="list-decimal list-inside space-y-1 text-sm">
-          {analyticsMock.popularCards.map((c) => (
-            <li key={c.rank}>
-              {c.title} … {c.pickCount}回
-            </li>
-          ))}
-        </ol>
+      <section className="rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-4 shadow-lg">
+        <h2 className="text-sm font-semibold text-gray-700 mb-3">人気カードランキング</h2>
+        <div className="h-52">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={barData} layout="vertical" margin={{ left: 0, right: 8 }}>
+              <XAxis type="number" tick={{ fontSize: 11 }} />
+              <YAxis type="category" dataKey="name" width={80} tick={{ fontSize: 10 }} />
+              <Tooltip formatter={(v: number) => [`${v}回`, '選択数']} />
+              <Bar dataKey="選択" fill="#6366f1" radius={[0, 4, 4, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </section>
 
       <Button variant="secondary" onClick={restartGame}>
         最初に戻る
       </Button>
-    </div>
+    </motion.div>
   )
 }

@@ -13,7 +13,7 @@ interface ScreenContainerProps {
 export function ScreenContainer({ children, className = '' }: ScreenContainerProps) {
   return (
     <div
-      className={`min-h-screen w-full max-w-md mx-auto flex flex-col p-4 box-border ${className}`}
+      className={`min-h-screen w-full max-w-md mx-auto flex flex-col p-4 box-border bg-white/60 backdrop-blur-md shadow-lg shadow-indigo-100/50 ${className}`}
       role="main"
     >
       {children}
