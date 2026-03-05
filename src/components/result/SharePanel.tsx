@@ -41,7 +41,7 @@ export function SharePanel({ shareText, className = '' }: SharePanelProps) {
   const [textCopied, setTextCopied] = useState(false)
   const [linkCopied, setLinkCopied] = useState(false)
 
-  const currentUrl = window.location.href
+  const currentUrl = 'https://k5-dom.github.io/100oku-desire/'
   const encodedText = encodeURIComponent(shareText)
   const encodedUrl = encodeURIComponent(currentUrl)
 
