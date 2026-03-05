@@ -7,13 +7,7 @@ import type { CategoryScores } from '../../types/game'
 import { CategoryBadge } from '../game/CategoryBadge'
 import type { CardCategory } from '../../types/card'
 
-const CATEGORY_ORDER: CardCategory[] = [
-  'community',
-  'investment',
-  'experience',
-  'desire',
-  'asset',
-]
+const CATEGORY_ORDER: CardCategory[] = ['community', 'investment', 'experience', 'asset']
 
 interface ResultBreakdownProps {
   categoryScores: CategoryScores

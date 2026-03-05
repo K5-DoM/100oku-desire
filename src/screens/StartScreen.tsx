@@ -37,7 +37,7 @@ export function StartScreen({ game }: StartScreenProps) {
         <p className="mt-4 text-sm text-gray-600 max-w-xs mx-auto leading-relaxed">
           {START_SCREEN.description}
         </p>
-        <Button className="mt-8 w-full rounded-xl py-3" onClick={game.startGame}>
+        <Button className="mt-8 w-full rounded-xl py-3" onClick={game.goToAttributes}>
           {START_SCREEN.startButton}
         </Button>
       </motion.div>
