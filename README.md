@@ -26,6 +26,25 @@ npm run preview # ビルドのプレビュー
 
 フロントエンドの詳細（推奨ディレクトリ構成・画面一覧・リッチ化のポイント）は [docs/FRONTEND_IMPLEMENTATION.md](docs/FRONTEND_IMPLEMENTATION.md) を参照。
 
+### 簡易バックエンド（任意）
+
+分析画面に実データを表示する場合は、別ターミナルでサーバーを起動する。
+
+```bash
+cd server
+npm install
+npm run start   # または npm run dev（--watch）
+```
+
+デフォルトで `http://localhost:3001` で待ち受ける。フロントから API を利用するには、プロジェクトルートに `.env` を作成し、次を設定する。
+
+```
+VITE_API_BASE_URL=http://localhost:3001
+```
+
+同一 LAN 内の他端末からアクセスする場合は、PC の IP を指定する（例: `VITE_API_BASE_URL=http://192.168.1.10:3001`）。  
+未設定の場合はプレイ送信・分析取得を行わず、分析画面は従来どおり固定データを表示する。詳細は [docs/BACKEND_DESIGN.md](docs/BACKEND_DESIGN.md) を参照。
+
 # about
 Currently, two official plugins are available:
 

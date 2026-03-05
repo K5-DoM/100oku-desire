@@ -7,6 +7,7 @@ import { AppProviders } from './providers'
 import { useGameState } from '../hooks/useGameState'
 import { ScreenContainer } from '../components/common/ScreenContainer'
 import { StartScreen } from '../screens/StartScreen'
+import { AttributesScreen } from '../screens/AttributesScreen'
 import { GameScreen } from '../screens/GameScreen'
 import { ResultScreen } from '../screens/ResultScreen'
 import { AnalyticsScreen } from '../screens/AnalyticsScreen'
@@ -19,6 +20,7 @@ function App() {
     <AppProviders>
       <ScreenContainer>
         {currentScreen === 'start' && <StartScreen game={game} />}
+        {currentScreen === 'attributes' && <AttributesScreen game={game} />}
         {currentScreen === 'game' && <GameScreen game={game} />}
         {currentScreen === 'result' && <ResultScreen game={game} />}
         {currentScreen === 'analytics' && <AnalyticsScreen game={game} />}

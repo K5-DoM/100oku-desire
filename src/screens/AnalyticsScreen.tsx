@@ -1,8 +1,9 @@
 /**
  * 分析画面（デモ用）
- * app_definition: 集計グラフ風UI、固定データで企業向け活用を見せる
+ * app_definition: 集計グラフ風UI。API があれば実データ、失敗時は固定データ。
  */
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { BarChart3 } from 'lucide-react'
@@ -10,6 +11,7 @@ import type { GameState } from '../hooks/useGameState'
 import { Button } from '../components/common/Button'
 import { analyticsMock } from '../data/analyticsMock'
 import { ANALYTICS_SCREEN } from '../constants/copy'
+import { fetchAnalytics, type AnalyticsResponse } from '../api/client'
 
 const CHART_COLORS = ['#6366f1', '#8b5cf6', '#a855f7', '#c084fc', '#d8b4fe']
 
@@ -19,13 +21,28 @@ interface AnalyticsScreenProps {
 
 export function AnalyticsScreen({ game }: AnalyticsScreenProps) {
   const { restartGame } = game
+  const [data, setData] = useState<AnalyticsResponse | null>(null)
+  const [loaded, setLoaded] = useState(false)
 
-  const pieData = analyticsMock.categoryRates.map((r) => ({
+  useEffect(() => {
+    let cancelled = false
+    fetchAnalytics().then((res) => {
+      if (!cancelled) {
+        setData(res)
+        setLoaded(true)
+      }
+    })
+    return () => { cancelled = true }
+  }, [])
+
+  const analytics = loaded ? (data ?? analyticsMock) : analyticsMock
+
+  const pieData = analytics.categoryRates.map((r) => ({
     name: r.label,
     value: Math.round(r.rate * 100),
   }))
 
-  const barData = analyticsMock.popularCards.map((c) => ({
+  const barData = analytics.popularCards.map((c) => ({
     name: c.title.length > 12 ? c.title.slice(0, 12) + '…' : c.title,
     fullName: c.title,
     選択: c.pickCount,
@@ -74,7 +91,7 @@ export function AnalyticsScreen({ game }: AnalyticsScreenProps) {
       <section className="rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-4 shadow-lg">
         <h2 className="text-sm font-semibold text-gray-700 mb-2">地域貢献系の選択率</h2>
         <p className="text-2xl font-bold text-indigo-600 tabular-nums">
-          {(analyticsMock.communityPickRate * 100).toFixed(0)}%
+          {(analytics.communityPickRate * 100).toFixed(0)}%
         </p>
       </section>
 
