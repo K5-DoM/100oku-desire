@@ -15,8 +15,8 @@ interface GameScreenProps {
 }
 
 export function GameScreen({ game }: GameScreenProps) {
-  const { balance, currentCardIndex, chooseCurrentCard } = game
-  const card = CARDS[currentCardIndex]
+  const { balance, currentCardIndex, chooseCurrentCard, totalCards, remainingCardCount } = game
+  const card = currentCardIndex !== null ? CARDS[currentCardIndex] : null
 
   if (!card) {
     return (
@@ -27,11 +27,12 @@ export function GameScreen({ game }: GameScreenProps) {
   }
 
   const canAccept = balance >= card.cost
+  const presentedCount = totalCards - remainingCardCount
 
   return (
     <div className="flex flex-col flex-1">
       <BalanceHeader balance={balance} />
-      <ProgressBar value={currentCardIndex + 1} max={CARDS.length} className="my-2" />
+      <ProgressBar value={presentedCount} max={totalCards} className="my-2" />
       <div className="flex-1 flex flex-col justify-center">
         <ChoiceCard card={card} />
         <ChoiceActions
