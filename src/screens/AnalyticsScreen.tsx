@@ -46,26 +46,25 @@ export function AnalyticsScreen({ game }: AnalyticsScreenProps) {
 
       <section className="rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-4 shadow-lg">
         <h2 className="text-sm font-semibold text-gray-700 mb-3">カテゴリ別人気率</h2>
-        <div className="h-48">
+        <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={pieData}
                 cx="50%"
-                cy="50%"
-                innerRadius={48}
-                outerRadius={70}
+                cy="45%"
+                innerRadius={44}
+                outerRadius={64}
                 paddingAngle={2}
                 dataKey="value"
                 nameKey="name"
-                label={({ name, value }) => `${name} ${value}%`}
               >
                 {pieData.map((_, i) => (
                   <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip formatter={(v: number) => `${v}%`} />
-              <Legend />
+              <Legend iconSize={10} wrapperStyle={{ fontSize: '11px' }} />
             </PieChart>
           </ResponsiveContainer>
         </div>
