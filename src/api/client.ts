@@ -1,20 +1,30 @@
 /**
  * 簡易バックエンド API クライアント
- * BACKEND_DESIGN: ベースURL未設定時は送信・取得を行わず、分析は固定データ表示
  */
 
 import type { PlayPayload } from '../types/game'
-import type { CategoryRate, PopularCard } from '../data/analyticsMock'
 
-const BASE_URL = typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL
-  ? String(import.meta.env.VITE_API_BASE_URL).replace(/\/$/, '')
-  : ''
+export interface CategoryRate {
+  categoryId: string
+  label: string
+  rate: number
+}
+
+export interface PopularCard {
+  rank: number
+  title: string
+  pickCount: number
+}
 
 export interface AnalyticsResponse {
   categoryRates: CategoryRate[]
   communityPickRate: number
   popularCards: PopularCard[]
 }
+
+const BASE_URL = typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL
+  ? String(import.meta.env.VITE_API_BASE_URL).replace(/\/$/, '')
+  : ''
 
 export function hasApiBase(): boolean {
   return BASE_URL.length > 0
@@ -44,7 +54,7 @@ export async function submitPlay(payload: PlayPayload): Promise<{ ok: boolean; e
 }
 
 /**
- * 集計データを取得。失敗時は null を返し、呼び出し側で analyticsMock にフォールバックする。
+ * 集計データを取得。失敗時は null を返す。
  */
 export async function fetchAnalytics(): Promise<AnalyticsResponse | null> {
   if (!BASE_URL) return null

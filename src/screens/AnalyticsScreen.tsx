@@ -1,6 +1,6 @@
 /**
- * 分析画面（デモ用）
- * app_definition: 集計グラフ風UI。API があれば実データ、失敗時は固定データ。
+ * 分析画面
+ * 「分析を見る」で遷移した際に API を叩き、実データを表示する。
  */
 
 import { useState, useEffect } from 'react'
@@ -9,7 +9,6 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pi
 import { BarChart3 } from 'lucide-react'
 import type { GameState } from '../hooks/useGameState'
 import { Button } from '../components/common/Button'
-import { analyticsMock } from '../data/analyticsMock'
 import { ANALYTICS_SCREEN } from '../constants/copy'
 import { fetchAnalytics, type AnalyticsResponse } from '../api/client'
 
@@ -35,14 +34,30 @@ export function AnalyticsScreen({ game }: AnalyticsScreenProps) {
     return () => { cancelled = true }
   }, [])
 
-  const analytics = loaded ? (data ?? analyticsMock) : analyticsMock
+  if (!loaded) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[40vh] gap-3 text-gray-500">
+        <div className="w-8 h-8 border-4 border-indigo-300 border-t-indigo-600 rounded-full animate-spin" />
+        <p className="text-sm">データを読み込み中...</p>
+      </div>
+    )
+  }
 
-  const pieData = analytics.categoryRates.map((r) => ({
+  if (!data) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[40vh] gap-4 text-gray-500">
+        <p className="text-sm text-center">分析データを取得できませんでした。<br />バックエンドが起動しているか確認してください。</p>
+        <Button variant="secondary" onClick={restartGame}>最初に戻る</Button>
+      </div>
+    )
+  }
+
+  const pieData = data.categoryRates.map((r) => ({
     name: r.label,
     value: Math.round(r.rate * 100),
   }))
 
-  const barData = analytics.popularCards.map((c) => ({
+  const barData = data.popularCards.map((c) => ({
     name: c.title.length > 12 ? c.title.slice(0, 12) + '…' : c.title,
     fullName: c.title,
     選択: c.pickCount,
@@ -90,7 +105,7 @@ export function AnalyticsScreen({ game }: AnalyticsScreenProps) {
       <section className="rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-4 shadow-lg">
         <h2 className="text-sm font-semibold text-gray-700 mb-2">地域貢献系の選択率</h2>
         <p className="text-2xl font-bold text-indigo-600 tabular-nums">
-          {(analytics.communityPickRate * 100).toFixed(0)}%
+          {(data.communityPickRate * 100).toFixed(0)}%
         </p>
       </section>
 
