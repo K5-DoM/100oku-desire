@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./server
+    container_name: 100oku-desire-backend
+    ports:
+      - "3001:3001"
+    environment:
+      # 必要に応じて変更可能。PORT を変えた場合は VITE_API_BASE_URL も合わせて変更すること。
+      - PORT=3001
+    volumes:
+      # プレイデータをホストに永続化
+      - ./server/data:/app/data
+    restart: unless-stopped
+
