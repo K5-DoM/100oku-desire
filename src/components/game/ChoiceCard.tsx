@@ -74,6 +74,8 @@ export function ChoiceCard({ card, onAccept, onReject, canAccept = true, classNa
           alt={card.title}
           className="w-full h-44 object-cover rounded-xl mb-3"
           loading="lazy"
+          draggable={false}
+          onDragStart={(e) => e.preventDefault()}
         />
       )}
       <h2 className="text-lg font-semibold text-gray-900">{card.title}</h2>
