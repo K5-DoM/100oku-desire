@@ -15,3 +15,24 @@ services:
       - ./server/data:/app/data
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: 100oku-desire-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # ブラウザからバックエンドへのアクセス先（ホストのポートを指定）
+      - VITE_API_BASE_URL=http://localhost:3001
+      # Dockerではルートパスで起動（GitHub Pages デプロイ時は /100oku-desire/ がデフォルト）
+      - VITE_BASE=/
+    volumes:
+      # ソースコードをマウントしてホットリロードを有効化
+      - .:/app
+      # コンテナ内の node_modules をホストのもので上書きしない
+      - /app/node_modules
+    depends_on:
+      - backend
+    restart: unless-stopped
+
