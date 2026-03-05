@@ -6,7 +6,6 @@ import type { CardCategory } from '../../types/card'
 import { classNames } from '../../utils/classNames'
 
 const CATEGORY_LABELS: Record<CardCategory, string> = {
-  desire: '欲望',
   investment: '投資',
   community: '地域貢献',
   experience: '体験',

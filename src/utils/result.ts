@@ -21,7 +21,7 @@ const RESULT_INFOS: Record<ResultType, ResultInfo> = {
   'big-spender': {
     type: 'big-spender',
     label: '夢の浪費王',
-    description: '体験や欲望に大胆に使うタイプです。',
+    description: '体験に大胆に使うタイプです。',
   },
   'balanced-operator': {
     type: 'balanced-operator',
@@ -42,10 +42,9 @@ export function computeResultType(categoryScores: CategoryScores): ResultType {
   const community = categoryScores.community ?? 0
   const investment = categoryScores.investment ?? 0
   const experience = categoryScores.experience ?? 0
-  const desire = categoryScores.desire ?? 0
 
   if (community >= 2) return 'community-builder'
   if (investment >= 2) return 'future-investor'
-  if (experience >= 2 || desire >= 2) return 'big-spender'
+  if (experience >= 2) return 'big-spender'
   return 'balanced-operator'
 }

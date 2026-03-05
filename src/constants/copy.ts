@@ -12,6 +12,16 @@ export const START_SCREEN = {
   description: 'もし100億円あったら、何に使う？ 選択で価値観の傾向がわかります。',
 } as const
 
+export const ATTRIBUTES_SCREEN = {
+  title: 'あと少しでスタート',
+  description: '匿名集計の参考にします。入力は任意で、スキップもできます。',
+  ageLabel: '年齢',
+  genderLabel: '性別',
+  locationLabel: '所在地',
+  skipButton: 'スキップしてはじめる',
+  startButton: 'プレイ開始',
+} as const
+
 export const GAME_SCREEN = {
   acceptLabel: '採用する',
   rejectLabel: 'しない',
