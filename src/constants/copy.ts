@@ -33,6 +33,6 @@ export const RESULT_SCREEN = {
 } as const
 
 export const ANALYTICS_SCREEN = {
-  title: '分析（デモ）',
-  description: '匿名集計イメージ。企業向け活用の参考にできます。',
+  title: '分析',
+  description: '匿名集計データです。企業向け活用の参考にできます。',
 } as const
