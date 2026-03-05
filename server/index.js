@@ -21,7 +21,6 @@ const CATEGORY_LABELS = {
   community: '地域貢献',
   experience: '体験',
   investment: '投資',
-  desire: '欲望',
   asset: '資産形成',
 }
 
@@ -102,8 +101,11 @@ app.get('/api/analytics', (_req, res) => {
 
   for (const play of plays) {
     const scores = play.categoryScores || {}
-    for (const [cat, count] of Object.entries(scores)) {
+    for (const [rawCat, count] of Object.entries(scores)) {
       const n = Number(count) || 0
+      if (!n) continue
+      // 「欲望」は「体験」に統合
+      const cat = rawCat === 'desire' ? 'experience' : rawCat
       categoryTotal[cat] = (categoryTotal[cat] || 0) + n
       totalPicks += n
     }

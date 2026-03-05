@@ -20,9 +20,8 @@ export const analyticsMock = {
   /** カテゴリ別人気率（0〜1） */
   categoryRates: [
     { categoryId: 'community', label: '地域貢献', rate: 0.32 },
-    { categoryId: 'experience', label: '体験', rate: 0.28 },
+    { categoryId: 'experience', label: '体験', rate: 0.4 },
     { categoryId: 'investment', label: '投資', rate: 0.22 },
-    { categoryId: 'desire', label: '欲望', rate: 0.12 },
     { categoryId: 'asset', label: '資産形成', rate: 0.06 },
   ] as CategoryRate[],
   /** 地域貢献系の選択率 */
