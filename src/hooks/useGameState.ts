@@ -5,7 +5,7 @@
  */
 
 import { useState, useCallback } from 'react'
-import type { Screen } from '../types/game'
+import type { Screen, PlayAttributes } from '../types/game'
 import type { ResultType } from '../types/result'
 import type { CategoryScores } from '../types/game'
 import { INITIAL_BALANCE } from '../constants/game'
@@ -41,6 +41,8 @@ export type GameState = ReturnType<typeof useGameState>
 
 export function useGameState() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('start')
+  /** プレイ前入力で入力した属性（スキップ時は null） */
+  const [playAttributes, setPlayAttributes] = useState<PlayAttributes | null>(null)
   /** 現在表示中のカードの index（CARDS へのインデックス）。null は結果画面へ遷移するとき */
   const [currentCardIndex, setCurrentCardIndex] = useState<number | null>(null)
   /** まだ提示していないカードの index 一覧 */
@@ -50,7 +52,14 @@ export function useGameState() {
   const [categoryScores, setCategoryScores] = useState<CategoryScores>(defaultCategoryScores)
   const [result, setResult] = useState<ResultType | null>(null)
 
-  const startGame = useCallback(() => {
+  /** 開始画面の「はじめる」→ 属性入力画面へ */
+  const goToAttributes = useCallback(() => {
+    setCurrentScreen('attributes')
+  }, [])
+
+  /** 属性入力画面からゲーム開始（属性はスキップ時 null） */
+  const startGame = useCallback((attributes: PlayAttributes | null) => {
+    setPlayAttributes(attributes)
     setBalance(INITIAL_BALANCE)
     setSelectedCardIds([])
     setCategoryScores(defaultCategoryScores())
@@ -106,6 +115,7 @@ export function useGameState() {
 
   const restartGame = useCallback(() => {
     setCurrentScreen('start')
+    setPlayAttributes(null)
     setCurrentCardIndex(null)
     setRemainingIndices([])
     setBalance(INITIAL_BALANCE)
@@ -119,6 +129,7 @@ export function useGameState() {
 
   return {
     currentScreen,
+    playAttributes,
     currentCardIndex,
     balance,
     selectedCardIds,
@@ -126,6 +137,7 @@ export function useGameState() {
     result,
     totalCards,
     remainingCardCount,
+    goToAttributes,
     startGame,
     chooseCurrentCard,
     goToAnalytics,

@@ -1,0 +1,9 @@
+tunnel: "b7330d09-d710-439f-9926-ae8cecfa597e"
+credentials-file: /etc/cloudflared/b7330d09-d710-439f-9926-ae8cecfa597e.json
+
+ingress:
+  - hostname: 100oku-desire.kunitake.net
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: true
+  - service: http_status:404

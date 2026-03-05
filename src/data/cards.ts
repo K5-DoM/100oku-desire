@@ -28,8 +28,9 @@ export const CARDS: Card[] = [
     title: '世界一の豪邸を建設',
     description: '庭にプライベートジェット用滑走路付き',
     cost: 10_000_000_000,
-    category: 'desire',
+    category: 'experience',
     imageUrl: `${import.meta.env.BASE_URL}images/image_03.webp`,
+
   },
   {
     id: 'card-4',

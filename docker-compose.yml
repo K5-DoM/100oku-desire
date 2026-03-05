@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./server
+    container_name: 100oku-desire-backend
+    ports:
+      - "3001:3001"
+    environment:
+      # 必要に応じて変更可能。PORT を変えた場合は VITE_API_BASE_URL も合わせて変更すること。
+      - PORT=3001
+    volumes:
+      # プレイデータをホストに永続化
+      - ./server/data:/app/data
+    restart: unless-stopped
+    networks:
+      - app_network
+
+  nginx:
+    image: nginx:latest
+    container_name: 100oku-desire-nginx
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+  cloudflared:
+    build:
+      context: .
+      dockerfile: cloudflared/Dockerfile
+    container_name: 100oku-desire-cloudflared
+    restart: unless-stopped
+    depends_on:
+      - nginx
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: 100oku-desire-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # ブラウザからバックエンドへのアクセス先（ホストのポートを指定）
+      - VITE_API_BASE_URL=http://localhost:3001
+      # Dockerではルートパスで起動（GitHub Pages デプロイ時は /100oku-desire/ がデフォルト）
+      - VITE_BASE=/
+    volumes:
+      # ソースコードをマウントしてホットリロードを有効化
+      - .:/app
+      # コンテナ内の node_modules をホストのもので上書きしない
+      - /app/node_modules
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  app_network:
+    driver: bridge
+
