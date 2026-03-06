@@ -64,16 +64,16 @@ export function ResultScreen({ game }: ResultScreenProps) {
   const shareText = buildShareText(info.label, balance)
 
   return (
-    <div className="flex flex-col space-y-6">
+    <div className="flex flex-col gap-5 pb-5">
       <ResultSummary resultType={result} balance={balance} />
       <ResultBreakdown categoryScores={categoryScores} />
       <ResultTagSummary selectedCardIds={selectedCardIds} />
       <SharePanel shareText={shareText} />
-      <div className="flex gap-3 pt-4">
-        <Button variant="secondary" onClick={goToAnalytics}>
+      <div className="grid grid-cols-2 gap-3">
+        <Button variant="secondary" className="h-11" onClick={goToAnalytics}>
           分析を見る
         </Button>
-        <Button onClick={restartGame}>{RESULT_SCREEN.restartButton}</Button>
+        <Button className="h-11" onClick={restartGame}>{RESULT_SCREEN.restartButton}</Button>
       </div>
     </div>
   )

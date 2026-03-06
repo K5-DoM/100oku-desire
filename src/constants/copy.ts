@@ -29,7 +29,7 @@ export const GAME_SCREEN = {
 
 export const RESULT_SCREEN = {
   restartButton: 'もう一度遊ぶ',
-  shareLabel: 'シェア用テキスト',
+  shareLabel: 'シェア',
 } as const
 
 export const ANALYTICS_SCREEN = {

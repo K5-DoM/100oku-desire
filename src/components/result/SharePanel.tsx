@@ -1,10 +1,5 @@
-/**
- * シェア用テキスト表示・コピー
- * app_definition: 結果画面にシェア用文言を表示、文言をコピーできる
- */
-
 import { useState } from 'react'
-import { Copy, Check, Link, Share2 } from 'lucide-react'
+import { Check, Copy, Link, Share2 } from 'lucide-react'
 import { RESULT_SCREEN } from '../../constants/copy'
 
 interface SharePanelProps {
@@ -28,7 +23,6 @@ function InstagramIcon({ className }: { className?: string }) {
   )
 }
 
-// LINE公式シェアロゴ SVG
 function LineIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -36,6 +30,9 @@ function LineIcon({ className }: { className?: string }) {
     </svg>
   )
 }
+
+const actionButtonClass =
+  'h-11 rounded-xl px-3 text-sm font-semibold transition-colors active:scale-[0.98] flex items-center justify-center gap-1.5'
 
 export function SharePanel({ shareText, className = '' }: SharePanelProps) {
   const [textCopied, setTextCopied] = useState(false)
@@ -54,7 +51,7 @@ export function SharePanel({ shareText, className = '' }: SharePanelProps) {
       setTextCopied(true)
       setTimeout(() => setTextCopied(false), 2000)
     } catch {
-      // フォールバック省略
+      // noop
     }
   }
 
@@ -64,7 +61,7 @@ export function SharePanel({ shareText, className = '' }: SharePanelProps) {
       setLinkCopied(true)
       setTimeout(() => setLinkCopied(false), 2000)
     } catch {
-      // フォールバック省略
+      // noop
     }
   }
 
@@ -73,21 +70,19 @@ export function SharePanel({ shareText, className = '' }: SharePanelProps) {
       try {
         await navigator.share({ title: '100oku Desire', text: shareText, url: currentUrl })
       } catch {
-        // キャンセル等
+        // noop
       }
     } else {
       await handleCopyText()
     }
   }
 
-  // Instagram は Web Share API 経由（モバイルのOSシェアシートでInstagramを選択できる）
-  // デスクトップの場合はテキストをコピー
   const handleInstagram = async () => {
     if (navigator.share) {
       try {
         await navigator.share({ title: '100oku Desire', text: shareText, url: currentUrl })
       } catch {
-        // キャンセル等
+        // noop
       }
     } else {
       await handleCopyText()
@@ -95,75 +90,72 @@ export function SharePanel({ shareText, className = '' }: SharePanelProps) {
   }
 
   return (
-    <section className={`rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-4 shadow-lg ${className}`}>
-      <h3 className="text-sm font-semibold text-gray-700 mb-2">{RESULT_SCREEN.shareLabel}</h3>
-      <p className="text-sm text-gray-600 bg-gray-50/80 p-3 rounded-xl border border-gray-100 wrap-break-word mb-3">
+    <section className={`rounded-3xl bg-white/85 backdrop-blur-sm border border-white/90 p-5 shadow-lg ${className}`}>
+      <h3 className="text-base font-semibold text-gray-900">{RESULT_SCREEN.shareLabel}</h3>
+      <p className="text-xs text-gray-500 mt-1">結果をSNSやメッセージで共有できます。</p>
+
+      <p className="text-sm text-gray-700 bg-gray-50/80 p-3 mt-4 rounded-2xl border border-gray-100 break-words">
         {shareText}
       </p>
 
-      {/* SNS シェアボタン */}
-      <div className="flex flex-wrap gap-2">
-        {/* LINE */}
-        <a
-          href={lineUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl font-medium text-sm bg-[#06C755] text-white hover:bg-[#05b84d] transition-colors active:scale-[0.98]"
-        >
-          <LineIcon className="w-4 h-4" />
-          LINE
-        </a>
-
-        {/* X (旧Twitter) */}
-        <a
-          href={xUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl font-medium text-sm bg-black text-white hover:bg-gray-800 transition-colors active:scale-[0.98]"
-        >
-          <XIcon className="w-4 h-4" />
-          X
-        </a>
-
-        {/* Instagram */}
-        <button
-          type="button"
-          onClick={handleInstagram}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl font-medium text-sm text-white transition-opacity hover:opacity-90 active:scale-[0.98]"
-          style={{ background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' }}
-        >
-          <InstagramIcon className="w-4 h-4" />
-          Instagram
-        </button>
-
-        {/* 共有する（OS ネイティブ共有） */}
+      <div className="grid grid-cols-2 gap-2 mt-4">
         <button
           type="button"
           onClick={handleNativeShare}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl font-medium text-sm bg-indigo-600 text-white hover:bg-indigo-700 transition-colors active:scale-[0.98]"
+          className={`${actionButtonClass} col-span-2 bg-indigo-600 text-white hover:bg-indigo-700`}
         >
           <Share2 className="w-4 h-4" />
           共有する
         </button>
 
-        {/* リンクをコピー */}
+        <a
+          href={lineUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${actionButtonClass} bg-[#06C755] text-white hover:bg-[#05b84d]`}
+        >
+          <LineIcon className="w-4 h-4" />
+          LINE
+        </a>
+
+        <a
+          href={xUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${actionButtonClass} bg-black text-white hover:bg-gray-800`}
+        >
+          <XIcon className="w-4 h-4" />
+          X
+        </a>
+
+        <button
+          type="button"
+          onClick={handleInstagram}
+          className={`${actionButtonClass} col-span-2 text-white hover:opacity-90`}
+          style={{ background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' }}
+        >
+          <InstagramIcon className="w-4 h-4" />
+          Instagram
+        </button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 mt-3">
         <button
           type="button"
           onClick={handleCopyLink}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl font-medium text-sm bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors active:scale-[0.98]"
+          className={`${actionButtonClass} bg-gray-100 text-gray-800 hover:bg-gray-200 font-medium`}
         >
           {linkCopied ? <Check className="w-4 h-4" /> : <Link className="w-4 h-4" />}
-          {linkCopied ? 'コピーしました' : 'リンクをコピー'}
+          {linkCopied ? 'コピー済み' : 'リンクをコピー'}
         </button>
 
-        {/* テキストをコピー */}
         <button
           type="button"
           onClick={handleCopyText}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl font-medium text-sm bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors active:scale-[0.98]"
+          className={`${actionButtonClass} bg-gray-100 text-gray-800 hover:bg-gray-200 font-medium`}
         >
           {textCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-          {textCopied ? 'コピーしました' : 'テキストをコピー'}
+          {textCopied ? 'コピー済み' : 'テキストをコピー'}
         </button>
       </div>
     </section>

@@ -17,20 +17,6 @@ const IMPACT_DOMAIN_ORDER: ImpactDomain[] = [
 
 const CARD_BY_ID = new Map(CARDS.map((card) => [card.id, card] as const))
 
-export const IMPACT_DOMAIN_LABELS: Record<ImpactDomain, string> = {
-  education: 'education',
-  environment: 'environment',
-  sports: 'sports',
-  culture: 'culture',
-  infra: 'infra',
-  disaster: 'disaster',
-  tourism: 'tourism',
-  tech: 'tech',
-  economy: 'economy',
-  health: 'health',
-  other: 'other',
-}
-
 function normalizePublicness(card: Card): CardPublicness {
   return card.publicness === 'public' ? 'public' : 'private'
 }
@@ -52,6 +38,25 @@ function pickTopImpactDomain(counts: Record<ImpactDomain, number>): ImpactDomain
   return best
 }
 
+export interface RankedImpactDomain {
+  domain: ImpactDomain
+  count: number
+}
+
+function getTopImpactDomains(
+  counts: Record<ImpactDomain, number>,
+  limit: number = 2
+): RankedImpactDomain[] {
+  return IMPACT_DOMAIN_ORDER
+    .filter((domain) => counts[domain] > 0)
+    .sort((a, b) => counts[b] - counts[a] || IMPACT_DOMAIN_ORDER.indexOf(a) - IMPACT_DOMAIN_ORDER.indexOf(b))
+    .slice(0, limit)
+    .map((domain) => ({
+      domain,
+      count: counts[domain],
+    }))
+}
+
 export interface CardTagSummary {
   hasData: boolean
   totalCount: number
@@ -61,6 +66,7 @@ export interface CardTagSummary {
   privateRate: number
   topImpactDomain: ImpactDomain | null
   topImpactDomainCount: number
+  topImpactDomains: RankedImpactDomain[]
 }
 
 export function summarizeCardTags(selectedCardIds: string[]): CardTagSummary {
@@ -78,6 +84,7 @@ export function summarizeCardTags(selectedCardIds: string[]): CardTagSummary {
       privateRate: 0,
       topImpactDomain: null,
       topImpactDomainCount: 0,
+      topImpactDomains: [],
     }
   }
 
@@ -111,6 +118,7 @@ export function summarizeCardTags(selectedCardIds: string[]): CardTagSummary {
   }
 
   const topImpactDomain = pickTopImpactDomain(impactCounts)
+  const topImpactDomains = getTopImpactDomains(impactCounts, 2)
   const totalCount = selectedCards.length
 
   return {
@@ -122,5 +130,6 @@ export function summarizeCardTags(selectedCardIds: string[]): CardTagSummary {
     privateRate: privateCount / totalCount,
     topImpactDomain,
     topImpactDomainCount: impactCounts[topImpactDomain],
+    topImpactDomains,
   }
 }

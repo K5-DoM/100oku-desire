@@ -4,7 +4,6 @@
  */
 
 import { motion } from 'framer-motion'
-import { Award } from 'lucide-react'
 import { formatYen } from '../../utils/currency'
 import { getResultInfo } from '../../utils/result'
 import type { ResultType } from '../../types/result'
@@ -19,17 +18,18 @@ export function ResultSummary({ resultType, balance, className = '' }: ResultSum
   const info = getResultInfo(resultType)
   return (
     <motion.section
-      className={`rounded-2xl bg-white/80 backdrop-blur-sm border border-white/90 p-5 shadow-lg ${className}`}
+      className={`rounded-3xl bg-white/85 backdrop-blur-sm border border-white/90 p-6 shadow-lg ${className}`}
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex items-center gap-2 mb-2">
-        <Award className="w-5 h-5 text-amber-500" />
-        <h2 className="text-lg font-semibold text-gray-900">{info.label}</h2>
+      <p className="text-xs font-semibold text-indigo-700 tracking-wide">診断タイプ</p>
+      <h2 className="text-2xl font-bold text-gray-900 mt-1 leading-tight">{info.label}</h2>
+      <p className="text-sm text-gray-600 mt-3">{info.description}</p>
+      <div className="mt-4 inline-flex items-center gap-2 rounded-2xl border border-indigo-100 bg-indigo-50 px-3 py-2">
+        <span className="text-xs font-medium text-indigo-700">残高</span>
+        <span className="text-lg font-bold text-indigo-700 tabular-nums">{formatYen(balance)}</span>
       </div>
-      <p className="text-sm text-gray-600 mt-1">{info.description}</p>
-      <p className="text-base font-semibold text-indigo-600 mt-2 tabular-nums">残高: {formatYen(balance)}</p>
     </motion.section>
   )
 }
