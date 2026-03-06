@@ -34,17 +34,33 @@ export function getResultInfo(type: ResultType): ResultInfo {
   return RESULT_INFOS[type]
 }
 
+/** 診断に使うカテゴリと ResultType の対応（asset は除外） */
+const CATEGORY_TO_RESULT: Record<string, ResultType> = {
+  community: 'community-builder',
+  investment: 'future-investor',
+  experience: 'big-spender',
+} as const
+
+const DIAGNOSIS_CATEGORIES = ['community', 'investment', 'experience'] as const
+
 /**
- * カテゴリスコアから診断タイプを決定する（簡易ロジック・雛形）
- * 後でB担当がロジックを詰める
+ * カテゴリスコアから診断タイプを決定する。
+ * 選んだ枚数が最も多いカテゴリで決定。同点ならバランス経営者。
  */
 export function computeResultType(categoryScores: CategoryScores): ResultType {
-  const community = categoryScores.community ?? 0
-  const investment = categoryScores.investment ?? 0
-  const experience = categoryScores.experience ?? 0
-
-  if (community >= 2) return 'community-builder'
-  if (investment >= 2) return 'future-investor'
-  if (experience >= 2) return 'big-spender'
+  const scores = {
+    community: categoryScores.community ?? 0,
+    investment: categoryScores.investment ?? 0,
+    experience: categoryScores.experience ?? 0,
+  }
+  const maxScore = Math.max(
+    scores.community,
+    scores.investment,
+    scores.experience
+  )
+  const leaders = DIAGNOSIS_CATEGORIES.filter((cat) => scores[cat] === maxScore)
+  if (leaders.length === 1) {
+    return CATEGORY_TO_RESULT[leaders[0]]
+  }
   return 'balanced-operator'
 }
