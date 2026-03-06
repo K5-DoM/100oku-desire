@@ -60,6 +60,27 @@ docker compose up -d
 フロントエンドから API を利用するには、これまで通り `.env` に `VITE_API_BASE_URL` を設定する。  
 同一 LAN 内のスマホなどからアクセスする場合は、ノートPC の LAN 内 IP アドレスを指定する（例: `VITE_API_BASE_URL=http://192.168.1.10:3001`）。
 
+### デモ用 API 公開（100oku-desire.kunitake.net）
+
+GitHub Pages 上のアプリから `https://100oku-desire.kunitake.net` 経由で API にアクセスするデモを行う場合、Cloudflare Tunnel でノートPC上のバックエンドを HTTPS 公開する。**credentials（秘密鍵）はリポジトリに含めず、手元の環境でのみ扱う。**
+
+1. **Cloudflare でトンネルを新規作成**
+   - [Cloudflare Zero Trust](https://one.dash.cloudflare.com/) の Networks → Tunnels（または Cloudflare ダッシュボードの Zero Trust）で「Create a tunnel」を実行。
+   - 旧トンネル（credentials が GitHub に一度上がっていたもの）は漏洩の可能性があるため **削除推奨**。新規トンネルを作成する。
+   - トンネル作成後、**Public Hostname** で `100oku-desire.kunitake.net` を追加し、サービス先を `http://nginx:80`（またはこのリポジトリの `cloudflared/config.yml` の ingress に合わせる）に設定する。
+
+2. **credentials JSON の配置**
+   - 新トンネル用の credentials ファイルを Cloudflare からダウンロード（または表示内容をコピー）する。
+   - プロジェクトの `cloudflared/credentials.json` として保存する。このパスは `.gitignore` 済みのため **git にコミットされない**。リポジトリ外（例: `~/cloudflared/credentials.json`）に置く場合は、`docker-compose.yml` の cloudflared の `volumes` のパスをその場所に合わせて変更する。
+
+3. **config.yml のトンネル ID を差し替え**
+   - `cloudflared/config.yml` の `tunnel: "YOUR_NEW_TUNNEL_ID"` を、Cloudflare で表示される**新トンネル ID** に書き換える。
+
+4. **Docker で起動**
+   - プロジェクトルートで `docker compose up -d` を実行する。cloudflared が `cloudflared/credentials.json` をマウントしてトンネルを張り、`https://100oku-desire.kunitake.net` で API に到達できるようになる。
+
+**注意**: credentials ファイルや TUNNEL_TOKEN は GitHub やリポジトリに一切アップロードしないこと。手元の PC と Cloudflare ダッシュボードのみで管理する。
+
 # about
 Currently, two official plugins are available:
 
