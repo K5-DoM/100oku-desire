@@ -1,5 +1,7 @@
-tunnel: "b7330d09-d710-439f-9926-ae8cecfa597e"
-credentials-file: /etc/cloudflared/b7330d09-d710-439f-9926-ae8cecfa597e.json
+# 新トンネル作成後、Cloudflare ダッシュボードで表示されるトンネル ID に差し替えること
+tunnel: "889d1401-afd6-48cd-9df4-398c5a390404"
+# credentials はリポジトリに含めず、実行時にボリュームマウントで渡す
+credentials-file: /etc/cloudflared/credentials.json
 
 ingress:
   - hostname: 100oku-desire.kunitake.net

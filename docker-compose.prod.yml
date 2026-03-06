@@ -58,10 +58,6 @@ services:
       dockerfile: cloudflared/Dockerfile
     container_name: 100oku-desire-cloudflared
     restart: unless-stopped
-    volumes:
-      # credentials はリポジトリに含めない。手元に配置した credentials.json をマウントすること（README の「デモ用 API 公開」を参照）
-      - ./cloudflared/credentials.json:/etc/cloudflared/credentials.json:ro
-
     depends_on:
       - nginx
     networks:
