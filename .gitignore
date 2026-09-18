@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 .env
 .env.*
+plays.json
+
+# Cloudflare Tunnel credentials（リポジトリに含めない）
+cloudflared/credentials.json
+cloudflared/*.json

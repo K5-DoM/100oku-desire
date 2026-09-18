@@ -1,0 +1,11 @@
+# 新トンネル作成後、Cloudflare ダッシュボードで表示されるトンネル ID に差し替えること
+tunnel: "889d1401-afd6-48cd-9df4-398c5a390404"
+# credentials はリポジトリに含めず、実行時にボリュームマウントで渡す
+credentials-file: /etc/cloudflared/credentials.json
+
+ingress:
+  - hostname: 100oku-desire.kunitake.net
+    service: http://nginx:80
+    originRequest:
+      noTLSVerify: true
+  - service: http_status:404

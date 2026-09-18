@@ -20,6 +20,70 @@ cd 100oku-desire
 npm install
 ```
 
+### 開発サーバー・ビルド
+```bash
+npm run dev    # 開発サーバー起動（例: http://localhost:5173）
+npm run build  # 本番ビルド
+npm run preview # ビルドのプレビュー
+```
+
+フロントエンドの詳細（推奨ディレクトリ構成・画面一覧・リッチ化のポイント）は [docs/FRONTEND_IMPLEMENTATION.md](docs/FRONTEND_IMPLEMENTATION.md) を参照。
+
+### 簡易バックエンド（任意）
+
+分析画面に実データを表示する場合は、別ターミナルでサーバーを起動する。
+
+```bash
+cd server
+npm install
+npm run start   # または npm run dev（--watch）
+```
+
+デフォルトで `http://localhost:3001` で待ち受ける。フロントから API を利用するには、プロジェクトルートに `.env` を作成し、次を設定する。
+
+```
+VITE_API_BASE_URL=http://localhost:3001
+```
+
+同一 LAN 内の他端末からアクセスする場合は、PC の IP を指定する（例: `VITE_API_BASE_URL=http://192.168.1.10:3001`）。  
+未設定の場合はプレイ送信・分析取得を行わず、分析画面は従来どおり固定データを表示する。詳細は [docs/BACKEND_DESIGN.md](docs/BACKEND_DESIGN.md) を参照。
+
+### 簡易バックエンドを Docker で起動する（ノートPCを簡易サーバにする）
+
+事前に Docker / Docker Compose がインストールされていることを前提とする。
+
+```bash
+# プロジェクトルートで実行
+docker compose up -d
+```
+
+- バックエンド API はデフォルトで `http://localhost:3001` で待ち受ける。
+- プレイデータは `server/data/plays.json` に永続化される（ホストとコンテナで共有）。
+
+フロントエンドから API を利用するには、これまで通り `.env` に `VITE_API_BASE_URL` を設定する。  
+同一 LAN 内のスマホなどからアクセスする場合は、ノートPC の LAN 内 IP アドレスを指定する（例: `VITE_API_BASE_URL=http://192.168.1.10:3001`）。
+
+### デモ用 API 公開（100oku-desire.kunitake.net）
+
+GitHub Pages 上のアプリから `https://100oku-desire.kunitake.net` 経由で API にアクセスするデモを行う場合、Cloudflare Tunnel でノートPC上のバックエンドを HTTPS 公開する。**credentials（秘密鍵）はリポジトリに含めず、手元の環境でのみ扱う。**
+
+1. **Cloudflare でトンネルを新規作成**
+   - [Cloudflare Zero Trust](https://one.dash.cloudflare.com/) の Networks → Tunnels（または Cloudflare ダッシュボードの Zero Trust）で「Create a tunnel」を実行。
+   - 旧トンネル（credentials が GitHub に一度上がっていたもの）は漏洩の可能性があるため **削除推奨**。新規トンネルを作成する。
+   - トンネル作成後、**Public Hostname** で `100oku-desire.kunitake.net` を追加し、サービス先を `http://nginx:80`（またはこのリポジトリの `cloudflared/config.yml` の ingress に合わせる）に設定する。
+
+2. **credentials JSON の配置**
+   - 新トンネル用の credentials ファイルを Cloudflare からダウンロード（または表示内容をコピー）する。
+   - プロジェクトの `cloudflared/credentials.json` として保存する。このパスは `.gitignore` 済みのため **git にコミットされない**。リポジトリ外（例: `~/cloudflared/credentials.json`）に置く場合は、`docker-compose.yml` の cloudflared の `volumes` のパスをその場所に合わせて変更する。
+
+3. **config.yml のトンネル ID を差し替え**
+   - `cloudflared/config.yml` の `tunnel: "YOUR_NEW_TUNNEL_ID"` を、Cloudflare で表示される**新トンネル ID** に書き換える。
+
+4. **Docker で起動**
+   - プロジェクトルートで `docker compose up -d` を実行する。cloudflared が `cloudflared/credentials.json` をマウントしてトンネルを張り、`https://100oku-desire.kunitake.net` で API に到達できるようになる。
+
+**注意**: credentials ファイルや TUNNEL_TOKEN は GitHub やリポジトリに一切アップロードしないこと。手元の PC と Cloudflare ダッシュボードのみで管理する。
+
 # about
 Currently, two official plugins are available:
 
